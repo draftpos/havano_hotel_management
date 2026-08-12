@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_hotel_dashboard" model="ir.actions.client">
+        <field name="name">Hotel Dashboard</field>
+        <field name="tag">havano_hotel_management.hotel_dashboard</field>
+    </record>
+</odoo>

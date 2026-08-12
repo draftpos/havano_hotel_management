@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_hotel_root" name="Hotel" web_icon="havano_hotel_management,static/description/icon.png" sequence="10"/>
+
+    <menuitem id="menu_hotel_dashboard"
+              name="Dashboard"
+              parent="menu_hotel_root"
+              action="action_hotel_dashboard"
+              sequence="1"/>
+
+    <menuitem id="menu_hotel_shift"
+              name="Shifts"
+              parent="menu_hotel_root"
+              action="action_hotel_shift"
+              sequence="2"/>
+
+    <menuitem id="menu_hotel_checkin"
+              name="Check-Ins"
+              parent="menu_hotel_root"
+              action="action_hotel_checkin"
+              sequence="2"/>
+              
+    <menuitem id="menu_hotel_room"
+              name="Rooms"
+              parent="menu_hotel_root"
+              action="action_hotel_room"
+              sequence="3"/>
+
+    <menuitem id="menu_hotel_booking"
+              name="Bookings"
+              parent="menu_hotel_root"
+              action="action_hotel_booking"
+              sequence="4"/>
+
+    <menuitem id="menu_hotel_checkout"
+              name="Check Outs"
+              parent="menu_hotel_root"
+              action="action_hotel_checkout"
+              sequence="5"/>
+
+    <menuitem id="menu_hotel_venue"
+              name="Venues"
+              parent="menu_hotel_root"
+              action="action_hotel_venue"
+              sequence="6"/>
+
+    <menuitem id="menu_hotel_housekeeping"
+              name="Housekeeping"
+              parent="menu_hotel_root"
+              action="action_hotel_housekeeping"
+              sequence="7"/>
+
+    <!-- Folios Submenu -->
+    <menuitem id="menu_hotel_folios" name="Folios" parent="menu_hotel_root" sequence="8"/>
+    <menuitem id="menu_hotel_room_folio" name="Room Folios" parent="menu_hotel_folios" action="action_hotel_room_folio" sequence="10"/>
+    <menuitem id="menu_hotel_desk_folio" name="Desk Folios" parent="menu_hotel_folios" action="action_hotel_desk_folio" sequence="20"/>
+
+</odoo>
