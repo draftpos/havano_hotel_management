@@ -1,0 +1,91 @@
+.hotel-dashboard {
+    padding: 5px 15px 15px 15px;
+}
+
+.hotel-dashboard .dashboard-header h2 {
+    font-weight: 600;
+}
+
+.hotel-dashboard .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 5px;
+}
+
+.hotel-dashboard .action-buttons button {
+    margin-right: 6px;
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.hotel-dashboard .action-buttons button i {
+    margin-right: 5px;
+}
+
+/* Clean UI - Default Odoo/Bootstrap Styles */
+.hotel-dashboard .btn {
+    font-weight: 500;
+}
+
+/* Summary Cards */
+.summary-cards {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.summary-card {
+    padding: 8px 12px;
+    border-radius: 4px;
+    min-width: 100px;
+    border: 1px solid #dee2e6;
+    background-color: #ffffff; /* Clean white */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Slight shadow for depth */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.summary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.summary-card.active-filter {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+
+.summary-card small {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* Give just the icons the theme colors for subtle identification */
+.card-vacant i { color: #198754; }
+.card-occupied i { color: #fd7e14; }
+.card-reserved i { color: #0d6efd; }
+.card-due-out i { color: #dc3545; }
+.card-dirty i { color: #ffc107; }
+.card-out-of-order i { color: #6c757d; }
+.card-all-rooms i { color: #343a40; }
+
+/* Filter Bar */
+.filter-bar {
+    /* Inherit from theme */
+}
+
+/* Table */
+.hotel-table th {
+    font-weight: 600;
+}
+
+.hotel-table tbody tr td {
+    vertical-align: middle;
+}
