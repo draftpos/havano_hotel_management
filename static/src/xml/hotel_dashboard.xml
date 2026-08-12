@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="havano_hotel_management.HotelDashboard" owl="1">
+        <div class="hotel-dashboard">
+            <div class="dashboard-header d-flex align-items-center mb-3">
+                <h2 class="mb-0 text-nowrap" style="width: 130px;">Front Desk</h2>
+                <div class="action-buttons d-flex flex-wrap align-items-center justify-content-center flex-grow-1 gap-1">
+                    <button class="btn btn-success btn-sm rounded btn-check-in text-white me-1" t-on-click="openCheckIn"><i class="fa fa-sign-in"></i> Check In</button>
+                    <button class="btn btn-warning btn-sm rounded btn-check-out text-white me-1" t-on-click="openCheckOut"><i class="fa fa-sign-out"></i> Check Out</button>
+                    <button class="btn btn-primary btn-sm rounded btn-reservation text-white me-1" t-on-click="openReservation"><i class="fa fa-calendar-plus-o"></i> Make Reservation</button>
+                    <button class="btn btn-success btn-sm rounded btn-payment text-white me-1" t-on-click="openPayment"><i class="fa fa-money"></i> Make Payment</button>
+                    <button class="btn btn-info btn-sm rounded btn-xtra text-white me-1" t-on-click="openExtraCharge"><i class="fa fa-plus-circle"></i> Xtra Charge</button>
+                    <button class="btn btn-dark btn-sm rounded btn-pos text-white me-2" t-on-click="openPOS"><i class="fa fa-cutlery"></i> POS</button>
+                    
+                </div>
+                <div class="dropdown d-flex justify-content-end" style="width: 130px;">
+                    <button class="btn btn-outline-secondary btn-sm shadow-sm rounded dropdown-toggle" type="button" id="actionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-cog"></i> Actions
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionsDropdown">
+                        <li><a class="dropdown-item" href="#" t-on-click.prevent="openShift"><i class="fa fa-clock-o"></i> <t t-esc="state.hasActiveShift ? 'Close Shift' : 'Open Shift'"/></a></li>
+                        <li><a class="dropdown-item" href="#" t-on-click.prevent="openMoveRoom"><i class="fa fa-exchange"></i> Move Room</a></li>
+                        <li><a class="dropdown-item" href="#" t-on-click.prevent="openExtendStay"><i class="fa fa-calendar-check-o"></i> Extend Stay</a></li>
+                        <li><hr class="dropdown-divider"/></li>
+                        <li><a class="dropdown-item" href="#" t-on-click.prevent="refreshDashboard"><i class="fa fa-refresh"></i> Refresh</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="summary-cards row mb-1 flex-nowrap">
+                <div class="col-auto pe-2">
+                    <div class="summary-card card-vacant" t-on-click="() => this.setFilter('available')" t-att-class="{'active-filter': state.filterStatus === 'available'}">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa fa-bed fs-5"></i>
+                            <span class="fw-bold fs-5"><t t-esc="state.stats.vacant"/></span>
+                            <small class="text-muted">Vacant</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto pe-2">
+                    <div class="summary-card card-occupied" t-on-click="() => this.setFilter('occupied')" t-att-class="{'active-filter': state.filterStatus === 'occupied'}">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa fa-user fs-5"></i>
+                            <span class="fw-bold fs-5"><t t-esc="state.stats.occupied"/></span>
+                            <small class="text-muted">Occupied</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto pe-2">
+                    <div class="summary-card card-reserved" t-on-click="() => this.setFilter('reserved')" t-att-class="{'active-filter': state.filterStatus === 'reserved'}">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa fa-calendar fs-5"></i>
+                            <span class="fw-bold fs-5"><t t-esc="state.stats.reserved"/></span>
+                            <small class="text-muted">Reserved</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto pe-2">
+                    <div class="summary-card card-due-out" t-on-click="() => this.setFilter('due_out')" t-att-class="{'active-filter': state.filterStatus === 'due_out'}">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa fa-clock-o fs-5"></i>
+                            <span class="fw-bold fs-5"><t t-esc="state.stats.due_out || 0"/></span>
+                            <small class="text-muted">Due Out</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto pe-2">
+                    <div class="summary-card card-dirty" t-on-click="() => this.setFilter('dirty')" t-att-class="{'active-filter': state.filterStatus === 'dirty'}">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa fa-exclamation-triangle fs-5"></i>
+                            <span class="fw-bold fs-5"><t t-esc="state.stats.dirty"/></span>
+                            <small class="text-muted">Dirty</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto pe-2">
+                    <div class="summary-card card-out-of-order" t-on-click="() => this.setFilter('out_of_order')" t-att-class="{'active-filter': state.filterStatus === 'out_of_order'}">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa fa-ban fs-5"></i>
+                            <span class="fw-bold fs-5"><t t-esc="state.stats.out_of_order"/></span>
+                            <small class="text-muted text-nowrap">Out of Order</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto pe-2">
+                    <div class="summary-card card-all-rooms" t-on-click="() => this.setFilter('all')" t-att-class="{'active-filter': state.filterStatus === 'all'}">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa fa-building fs-5"></i>
+                            <span class="fw-bold fs-5"><t t-esc="state.stats.all_rooms"/></span>
+                            <small class="text-muted text-nowrap">All Rooms</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-bar p-2 mb-2 rounded d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <small class="fw-bold text-nowrap text-muted">Status:</small>
+                    <select class="form-select form-select-sm border-0 bg-transparent shadow-none" t-model="state.searchStatus" style="width: auto;">
+                        <option value="all">All</option>
+                        <option value="available">Available</option>
+                        <option value="occupied">Occupied</option>
+                        <option value="reserved">Reserved</option>
+                    </select>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <small class="fw-bold text-nowrap text-muted">Type:</small>
+                    <select class="form-select form-select-sm border-0 bg-transparent shadow-none" t-model="state.searchRoomType" style="width: auto;">
+                        <option value="all">All</option>
+                        <t t-foreach="state.roomTypes" t-as="type" t-key="type.id">
+                            <option t-att-value="type.id"><t t-esc="type.name"/></option>
+                        </t>
+                    </select>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <small class="fw-bold text-nowrap text-muted">Floor:</small>
+                    <select class="form-select form-select-sm border-0 bg-transparent shadow-none" t-model="state.searchFloor" style="width: auto;">
+                        <option value="all">All</option>
+                        <t t-foreach="state.floors" t-as="floor" t-key="floor.id">
+                            <option t-att-value="floor.id"><t t-esc="floor.name"/></option>
+                        </t>
+                    </select>
+                </div>
+                <div class="me-auto d-flex align-items-center gap-2">
+                    <small class="fw-bold text-nowrap text-muted">Search:</small>
+                    <input type="text" class="form-control form-control-sm border-0 bg-transparent shadow-none" placeholder="Room/Guest..." t-model="state.searchRoomName"/>
+                </div>
+                <div>
+                    <button class="btn btn-link text-decoration-none" t-on-click="clearFilters"><i class="fa fa-times"></i> Clear</button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover hotel-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"/></th>
+                            <th>S/N</th>
+                            <th>Room</th>
+                            <th>Room Type</th>
+                            <th>Status</th>
+                            <th>Guest Name</th>
+                            <th>Arrival</th>
+                            <th>Departure</th>
+                            <th>Reservation</th>
+                            <th>Total Balance</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-if="filteredRooms.length > 0">
+                            <t t-foreach="filteredRooms" t-as="room" t-key="room.id">
+                                <tr>
+                                    <td><input type="checkbox" t-model="room.selected"/></td>
+                                    <td><t t-esc="room_index + 1"/></td>
+                                    <td><t t-esc="room.name"/></td>
+                                    <td><t t-esc="room.room_type_id ? room.room_type_id[1] : '-'"/></td>
+                                    <td>
+                                        <span t-attf-class="badge {{ room.status === 'available' ? 'bg-success' : room.status === 'occupied' ? 'bg-primary' : 'bg-secondary' }} me-2">
+                                            <t t-esc="room.status.toUpperCase()"/>
+                                        </span>
+                                        <i class="fa fa-print text-muted" style="cursor: pointer;" title="Print Receipt" t-on-click="() => this.printReceipt(room.id)"></i>
+                                    </td>
+                                    <td><t t-esc="room.guest_name || '-'"/></td>
+                                    <td><t t-esc="room.arrival_date || '-'"/></td>
+                                    <td><t t-esc="room.checkout_date || '-'"/></td>
+                                    <td><t t-esc="room.current_reservation_id ? room.current_reservation_id[1] : '-'"/></td>
+                                    <td><t t-esc="room.balance || '0.00'"/></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-link" t-on-click="() => this.openHousekeepingWizard(room.id, room.housekeeping_status)">
+                                            <i class="fa fa-edit text-primary" title="Update Housekeeping Status"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <tr>
+                                <td colspan="11" class="text-center">No rooms found.</td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </t>
+</templates>
