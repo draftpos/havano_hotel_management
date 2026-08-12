@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Room Folio Views -->
+    <record id="view_hotel_room_folio_tree" model="ir.ui.view">
+        <field name="name">hotel.room.folio.tree</field>
+        <field name="model">hotel.room.folio</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="guest_id"/>
+                <field name="room_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hotel_room_folio_form" model="ir.ui.view">
+        <field name="name">hotel.room.folio.form</field>
+        <field name="model">hotel.room.folio</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Folio Reference"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="guest_id"/>
+                        <field name="room_id"/>
+                        <field name="desk_folio_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Transactions">
+                            <field name="transaction_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="amount"/>
+                                    <field name="uom_id"/>
+                                    <field name="income_account_id"/>
+                                    <field name="cost_center_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_room_folio" model="ir.actions.act_window">
+        <field name="name">Room Folios</field>
+        <field name="res_model">hotel.room.folio</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Desk Folio Views -->
+    <record id="view_hotel_desk_folio_tree" model="ir.ui.view">
+        <field name="name">hotel.desk.folio.tree</field>
+        <field name="model">hotel.desk.folio</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="reservation_id"/>
+                <field name="guest_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hotel_desk_folio_form" model="ir.ui.view">
+        <field name="name">hotel.desk.folio.form</field>
+        <field name="model">hotel.desk.folio</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Desk Folio Reference"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="reservation_id"/>
+                        <field name="guest_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Payment Entries">
+                            <field name="payment_entry_ids">
+                                <list editable="bottom">
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="account_paid_from"/>
+                                    <field name="account_paid_to"/>
+                                    <field name="amount"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_desk_folio" model="ir.actions.act_window">
+        <field name="name">Desk Folios</field>
+        <field name="res_model">hotel.desk.folio</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

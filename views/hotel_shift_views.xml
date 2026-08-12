@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Start Shift Wizard Dialog -->
+    <record id="view_hotel_shift_wizard_form" model="ir.ui.view">
+        <field name="name">hotel.shift.wizard.form</field>
+        <field name="model">hotel.shift.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Hotel Shift">
+                <field name="has_open_shift" invisible="1"/>
+                <field name="open_shift_id" invisible="1"/>
+
+                <div invisible="has_open_shift == True">
+                    <div class="oe_title mb-4 text-center">
+                        <h2 class="text-primary"><i class="fa fa-clock-o"></i> Start Hotel Shift</h2>
+                        <p class="text-muted">Please enter your opening cash to begin the shift.</p>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="opening_cash" widget="monetary" options="{'currency_field': 'currency_id'}" style="font-size: 1.5em; font-weight: bold; color: #10b981;"/>
+                        </group>
+                    </group>
+                </div>
+
+                <div invisible="has_open_shift == False" class="m-3">
+                    <div class="d-flex align-items-center" style="background-color: #fdf6e3; border: 1px solid #fbd38d; border-radius: 12px; padding: 15px;">
+                        <div class="me-3 d-flex align-items-center justify-content-center" style="background-color: #fbd38d; width: 48px; height: 48px; border-radius: 8px;">
+                            <i class="fa fa-sign-out fa-2x text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-1 text-dark" style="font-size: 1.1em; font-weight: normal;">You have an open shift: <strong><field name="open_shift_name" readonly="1" nolabel="1" class="oe_inline"/></strong></h4>
+                            <p class="mb-0 text-muted" style="font-size: 0.9em;">Click 'Close Shift' to submit the shift and finalize.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <footer>
+                    <button name="action_start_shift" string="Start Shift" type="object" class="btn-primary rounded px-4 py-2" icon="fa-play" invisible="has_open_shift == True"/>
+                    <button string="Cancel" class="btn-secondary rounded px-4 py-2 ms-2" special="cancel" invisible="has_open_shift == True"/>
+                    
+                    <button name="action_go_to_close_shift" string="Close Shift" type="object" class="btn-success rounded px-4 py-2 float-end ms-2" invisible="has_open_shift == False" style="background-color: #059669; border: none;"/>
+                    <button string="Dismiss" class="btn-info rounded px-4 py-2 float-end text-white" special="cancel" invisible="has_open_shift == False" style="background-color: #0d9488; border: none;"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_shift_wizard" model="ir.actions.act_window">
+        <field name="name">Start Shift</field>
+        <field name="res_model">hotel.shift.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Close Shift Wizard Dialog -->
+    <record id="view_hotel_shift_close_wizard_form" model="ir.ui.view">
+        <field name="name">hotel.shift.close.wizard.form</field>
+        <field name="model">hotel.shift.close.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Close POS Shift">
+                <div class="oe_title mb-4 text-center">
+                    <h2 class="text-danger"><i class="fa fa-lock"></i> Close Restaurant POS Shift</h2>
+                    <p class="text-muted">Please enter your actual closing cash to end the shift.</p>
+                </div>
+                <group>
+                    <group>
+                        <field name="shift_id" invisible="1"/>
+                        <field name="expected_cash" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                        <field name="closing_cash" widget="monetary" options="{'currency_field': 'currency_id'}" style="font-size: 1.5em; font-weight: bold; color: #ef4444;"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_close_shift" string="Confirm Close Shift" type="object" class="btn-danger rounded-pill px-4 py-2" icon="fa-lock"/>
+                    <button string="Cancel" class="btn-secondary rounded-pill px-4 py-2" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_shift_close_wizard" model="ir.actions.act_window">
+        <field name="name">Close Shift</field>
+        <field name="res_model">hotel.shift.close.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Shift Views -->
+    <record id="view_hotel_shift_tree" model="ir.ui.view">
+        <field name="name">hotel.shift.tree</field>
+        <field name="model">hotel.shift</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="opening_cash"/>
+                <field name="closing_cash"/>
+                <field name="state" widget="badge" decoration-success="state == 'open'" decoration-muted="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hotel_shift_form" model="ir.ui.view">
+        <field name="name">hotel.shift.form</field>
+        <field name="model">hotel.shift</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="%(action_hotel_shift_close_wizard)d" string="Close Shift" type="action" class="btn-danger" invisible="state == 'closed'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                        </group>
+                        <group>
+                            <field name="opening_cash"/>
+                            <field name="closing_cash"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_shift" model="ir.actions.act_window">
+        <field name="name">POS Shifts</field>
+        <field name="res_model">hotel.shift</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
